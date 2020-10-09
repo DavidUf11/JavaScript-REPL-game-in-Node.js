@@ -1,0 +1,11 @@
+{
+  "name": "JavaScript-game",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:DavidUf11/JavaScript-game.git",
+  "author": "Daviduf11 <ufberg.david@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "readline-sync": "^1.4.10"
+  }
+}
