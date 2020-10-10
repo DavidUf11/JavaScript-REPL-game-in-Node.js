@@ -8,7 +8,7 @@ let currentTurn = 1;
 
 // add choose your nation options
 
-// log "welcom to..." + goal (attain five victory stasrs?) + instructions .  Keep in mind, shop prices fluctuate so lookout for good deals!\n
+// log "welcom to..." + goal (attain five victory stasrs?) + instructions .  Keep in mind, shop prices fluctuate so lookout for good deals!\n "Each turn you will get a temporary battle effect that applies for the battle"
 
 // ask user for namne
 
@@ -34,7 +34,7 @@ let currentVictories = 0;
 
 
 function displayStats() {
-    console.log(`\nYour Strength: ${userStrength}\nYour Gold: ${currentGold}\n Your Victories: ${currentVictories}\n`)
+    console.log(`\nYour Base Strength: ${userStrength}\nYour Gold: ${currentGold}\nYour Victories: ${currentVictories}\n`)
 }
 
 // let double-dice = false; (REMEMBER TO SET THIS BACK TO FALSE AFTER DICE ROLL)
@@ -94,7 +94,7 @@ function shufflePrices() {
 let rival1 = {
     name: "red",
     strength: 850,
-    gold: 33, 
+    gold: 93, 
     victories: 0
 }
 
@@ -117,7 +117,7 @@ let battleEffectsIndex;
 
 function shuffleBattleEffects() {
     battleEffectsOnTurn = [];
-    let allBattleEffects = ["effect 1", "effect 2", "effect 3", "Strength x 125%", "Plunder on victory x2", "effect 6", "Strength -250", "effect 8", "Strength +250", "effect 10", "effect 11", "effect 12"];
+    let allBattleEffects = ["Strength +300", "Gold +40", "Strength x 125%", "Plunder on Victory x 200%", "Gold +75", "Strength -250"] //, "Strength -100", "Strength +250", "Plunder on Victory x 200%", "Gold -25", "Strength +200"];
     let i = 1;
     while (i <= 6) {
         battleEffectsIndex = Math.floor(Math.random() * allBattleEffects.length);
@@ -130,117 +130,100 @@ function shuffleBattleEffects() {
 // if userBattleEffect = double plunder, do something 
 
 let currentOpponent;
+let battleStrength;
+
 
 function fight() {
-    console.log(`${rival1.name}\nStrength: ${rival1.strength}\nGold: ${rival1.gold}\nVictories: ${rival1.victories}\n\n`);
+    let doublePlunder = false;
+    battleStrength = userStrength;
+    console.log("\n\n\n\n\nYour Rivals:\n")
+    console.log(`${rival1.name}\nStrength: ${rival1.strength}\nGold: ${rival1.gold}\nVictories: ${rival1.victories}\n`);
     console.log(`${rival2.name}\nStrength: ${rival2.strength}\nGold: ${rival2.gold}\nVictories: ${rival2.victories}\n`);
     console.log(`${rival3.name}\nStrength: ${rival3.strength}\nGold: ${rival3.gold}\nVictories: ${rival3.victories}\n`);
     shuffleBattleEffects();    
-    let rivalChoice = prompt.question(`\nYour strength: ${userStrength}.\n\nType in a rival's name to attack.\n`);
+    let rivalChoice = prompt.question(`Type in a rival's name to attack.\n`);
     if (rivalChoice === 'red') {
         currentOpponent = rival1;
-        console.log("\nPossible battle effects:\n");
+        console.log("\n\n\n\n\n\n\nPrepare for battle! Roll the dice for a random battle effect.\n");
         battleEffectsOnTurn.forEach(effect => console.log("[" + (battleEffectsOnTurn.indexOf(effect) + 1) + "] " + effect));
-        prompt.question("\nPrepare for battle! Type 'roll' to roll the dice!\n");
+        prompt.question("\nType 'roll' to roll the dice.\n");
         let userDiceRoll = Math.floor((Math.random() * 6) + 1);
         let userBattleEffect = battleEffectsOnTurn[userDiceRoll - 1];
-        console.log(`\nYour dice roll... ${userDiceRoll}!\n\nYour battle effect: ${userBattleEffect}`);
+        console.log(`\n\n\n\n\n\n\nYour dice roll... ${userDiceRoll}! ${userBattleEffect}`);
  
         // if userBattleEffect = double plunder, do something 
         // if userBattleEffect = STrength+1, userStrength = Strength+ 1
         // etc etc 
 
+        if (userBattleEffect === "Strength +300") {
+            battleStrength += 300;
+            console.log(`Your strength for this battle is ${battleStrength}`);
+        }
 
-        if (userStrength > rival1.strength) {
+        if (userBattleEffect === "Gold +40") {
+            currentGold += 40;
+            console.log(`You now have ${currentGold} gold.`);
+        }
+
+        if (userBattleEffect === "Strength x 125%") {
+            battleStrength = userStrength * 1.25;
+            console.log(`Your strength for this battle is ${battleStrength}`);
+        }
+
+        if (userBattleEffect === "Plunder on Victory x 200%") {
+            doublePlunder = true;
+        }
+
+        if (userBattleEffect === "Gold +75") {
+            currentGold += 75;
+            console.log(`You now have ${currentGold} gold.`);
+        }
+
+        if (userBattleEffect === "Strength -250") {
+            battleStrength = userStrength -250;
+            console.log(`Your strength for this battle is ${battleStrength}`);
+        }
+
+        // add the other 6 battle effects
+
+        // add options for fighting rivals 2 and 3
+
+        prompt.question(`\nTime for battle! Type 'fight' to fight ${rival1.name}.\n`);
+        console.log(`\n\n\n\n\n\n\nYour strength: ${battleStrength}\n${rival1.name}'s strength: ${rival1.strength}`)
+        if (battleStrength > rival1.strength) {
            
             currentVictories++;
-            console.log(`\nVictory!\n\nTotal victories: ${currentVictories}`);
+            let plunderAmount = parseInt(rival1.gold * (Math.floor(Math.random() * 34) / 100));
+            currentGold += plunderAmount;
+            rival1.gold -= plunderAmount;
+            console.log(`\nYou overpower ${rival1.name} and achieve victory!\nTotal victories: ${currentVictories}
+            \nYou manage to plunder ${plunderAmount} of ${rival1.name}'s gold.\nTotal Gold: ${currentGold}`);
             
-           
+            prompt.question("\nPress 'Enter' to go on to the next turn.\n"); 
             newTurn();
-        } else if (userStrength < rival1.strength) {
-            console.log(`\nDefeat. ${rival1.name} gains a victory.\n `);
+        } else if (battleStrength < rival1.strength) {
+            console.log(`\nDefeat. ${rival1.name} gains a victory.`);
             rival1.victories++;
+            prompt.question("\nPress 'Enter' to go on to the next turn.\n"); 
             newTurn();
         } else {
-            console.log("It's a draw! Neither combatant gains a victory nor plunders.");
+            console.log("\nIt's a draw! Neither combatant gains a victory.");
+            prompt.question("\nPress 'Enter' to go on to the next turn.\n"); 
             newTurn();
         }
 
 
-    } else if (rivalChoice === 'blue') {
-        currentOpponent = rival2;
-        console.log("\nPossible battle effects:\n");
-        battleEffectsOnTurn.forEach(effect => console.log("[" + (battleEffectsOnTurn.indexOf(effect) + 1) + "] " + effect));
-        prompt.question("\nPrepare for battle! Type 'roll' to roll the dice!\n");
-        let userDiceRoll = Math.floor((Math.random() * 6) + 1);
-        let userBattleEffect = battleEffectsOnTurn[userDiceRoll - 1];
-        console.log(`\nYour dice roll... ${userDiceRoll}!\n\nYour battle effect: ${userBattleEffect}`);
- 
-        // if userBattleEffect = double plunder, do something 
-        // if userBattleEffect = STrength+1, userStrength = Strength+ 1
-        // etc etc 
-
-
-        if (userStrength > rival2.strength) {
-           
-            currentVictories++;
-            console.log(`\nVictory!\n\nTotal victories: ${currentVictories}`);
-            
-           
-            newTurn();
-        } else if (userStrength < rival2.strength) {
-            console.log(`\nDefeat. ${rival2.name} gains a victory.\n `);
-            rival2.victories++;
-            newTurn();
-        } else {
-            console.log("It's a draw! Neither combatant gains a victory nor plunders.");
-            newTurn();
-        }
-    } else if (rivalChoice === 'green') {
-        currentOpponent = rival3;
-        console.log("\nPossible battle effects:\n");
-        battleEffectsOnTurn.forEach(effect => console.log("[" + (battleEffectsOnTurn.indexOf(effect) + 1) + "] " + effect));
-        prompt.question("\nPrepare for battle! Type 'roll' to roll the dice!\n");
-        let userDiceRoll = Math.floor((Math.random() * 6) + 1);
-        let userBattleEffect = battleEffectsOnTurn[userDiceRoll - 1];
-        console.log(`\nYour dice roll... ${userDiceRoll}!\n\nYour battle effect: ${userBattleEffect}`);
- 
-        // if userBattleEffect = double plunder, do something 
-        // if userBattleEffect = STrength+1, userStrength = Strength+ 1
-        // etc etc 
-
-
-        if (userStrength > rival3.strength) {
-           
-            currentVictories++;
-            console.log(`\nVictory!\n\nTotal victories: ${currentVictories}`);
-            
-           
-            newTurn();
-        } else if (userStrength < rival3.strength) {
-            console.log(`\nDefeat. ${rival3.name} gains a victory.\n `);
-            rival3.victories++;
-            newTurn();
-        } else {
-            console.log("It's a draw! Neither combatant gains a victory nor plunders.");
-            newTurn();
-        }
-    } else {
-        console.log('\nInvalid. Please input "red" "blue" or "green".\n');
-        fight();
-    }
+    } /// add other rivals, plus "else" for invalid input
 }
 
-
-
 function askForAction() {
-    let actionSelection = prompt.question(`\nTurn ${currentTurn}. What would you like to do?\n[a] Shop   [b] Fight   [c] Fortify\n`);
+    console.log(`\n\n\n\n\n\n\nTurn ${currentTurn}`)
+    displayStats();
+    let actionSelection = prompt.question(`Select an action.\n[a] Shop   [b] Fight   [c] Fortify\n`);
     if (actionSelection === "a") {
         console.log("\nWelcome to the shop.\n")
         shufflePrices();
     } else if (actionSelection ==="b") {
-        console.log("\nHere are your rivals:\n")
         fight();
     } else {
         console.log('\nInvalid. Please input "a" "b" or "c"');
@@ -254,6 +237,7 @@ function newTurn() {
     currentTurn++;
     // randomly add victory to one of rivals that are not currentopponent. 
     // or if fortified, give victory to one other 
+    // randomly decide to add strength to rivals; randomly add strength number (multiple of 50)
     askForAction();
 }
 
