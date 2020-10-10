@@ -1,29 +1,12 @@
 const prompt = require('readline-sync');
 
-// const userName = prompt.question("What is your name? ");
+// test end of game function
 
-// console.log(userName);
-
-
-// log "welcom to..." + goal (attain five victory stasrs?) + instructions . Your rivals will either fight or fortify each turn, so they will accumulate victories. Fighting and fortifying go to next turn. Shopping does not. Shop prices fluctuate so lookout for good deals!\n "Each turn you will get a temporary battle effect that applies for the battle"
-
-// allow user to choose their character
-
-// populate battle effects array
-
-// create options for fighting blue and gree
-
-// add character names and game name 'Battle for Wyncode?' Rivals are Will Sara Dan and Katie
-
-// Write welcome and instructions AFTER Character select screen
-
-// write randomizer for starting strength and gold for each character! Your staarting strength: 1000. Their starting strength random multiple of 50 between 750 and 1250. gold should be correlated with starting strength. Perhaps 20%?
-
-// entire code base should be wrapped in playGame() function. User should have option to play again at the end or just quit. 
-
-// write endgame function
+function runGame() {
 
 console.log("\n\n\n\n\n\n\n\nWelcome to The Battle for Wyncode!");
+
+
 
 let charactersList = ["Dan", "Katie", "Sara", "Will", "Ernie"]
 let characterSelection = prompt.question(`\nChoose your character.\n\n[1] Dan\n[2] Katie\n[3] Sara\n[4] Will\n\n`);
@@ -40,20 +23,17 @@ if (userCharacter === "Ernie") {
     console.log(`\n\n\n\n\n\n\n\nYou chose ${userCharacter}!`);
 }
 
-console.log("\nThe Battle For Wyncode is a turn-based action game. To win, accumulate 5 victories before any of your rivals.\n\nEach turn, you will choose from three actions:\n\nShop (does not pass a turn) - Purchase items. Prices fluctuate so look out for good deals!\n\nBattle (passes a turn) - Face off against a rival. Before battling, you can roll a die to take on a Battle Effect that will last only for that battle. The winner of each battle will gain a Victory.\n\nFortify (passes a turn) - Gain Strength. Your rivals can still fight and gain Victories while you are fortifying!");
+console.log("\nThe Battle For Wyncode is a turn-based action game. To win, accumulate 5 victories before any of your rivals.\n\nEach turn, you can choose from three actions:\n\n -- Shop (does not pass a turn) - Purchase items. Prices fluctuate so look out for good deals!\n\n -- Battle (passes a turn) - Face off against a rival. Before battling, you can roll a die to take on a Battle Effect that will last only for that battle. The winner of each battle will gain a Victory.\n\n -- Fortify (passes a turn) - Gain Strength.\n\nEach turn your rivals can Battle each other or Fortify too. Make sure you get to 5 Victories before any of them!");
 
 
 charactersList.splice(charactersList.indexOf(userCharacter), 1);
 
 prompt.question("\nPress 'Enter' to begin.\n\n");
 
-
-// Only the strongest can emerge as the Champion of Wyncode!
-
 let currentTurn = 1;
 
 let userStrength = 1000;
-let currentGold = 1500;
+let currentGold = 15;
 let currentVictories = 0;
 
 let immuneFromPlunder = false;
@@ -64,9 +44,6 @@ let winners = [];
 function displayStats() {
     console.log(`\nStrength: ${userStrength}\nGold: ${currentGold}\nVictories: ${currentVictories}\n`);
 }
-
-// let double-dice = false; (REMEMBER TO SET THIS BACK TO FALSE AFTER DICE ROLL)
-// let double-plunder = false; (REMEMBER TO SET THIS BACK TO FALSE AFTER A VICTORY)
 
 function shufflePrices() {    
     let priceA = 4 + Math.floor(Math.random() * 11);
@@ -84,9 +61,8 @@ function shufflePrices() {
         if (itemChoice === 'a') {
             if (priceA <= currentGold) {
                 currentGold = currentGold - priceA;
-                console.log(`\n\n\n\n\n\n\n\nPurchase successful. Strength +300. \n\nRemaining gold: ${currentGold}\n`);
                 userStrength += 300;
-                console.log(`\nYour Strength is now ${userStrength}.`);
+                console.log(`\n\n\n\n\n\n\n\nPurchase successful. Strength +300.\nYour Strength is now ${userStrength}.\n\nRemaining gold: ${currentGold}\n`);
                 prompt.question(`Press 'Enter' to return to Action Select.\n\n`);
                 askForAction();
             } else {
@@ -165,15 +141,19 @@ function shuffleBattleEffects() {
     }
 }
 
-
 let currentOpponent;
 let battleStrength;
 let userDiceRoll;
 
-function fight() {
+function fight(source) {
+    if (source === "invalid input") {
+        console.log(`\n\n\n\n\n\n\nInvalid. Input '${rivalA.name}' '${rivalB.name}' or '${rivalC.name}'.\n`);
+    } else {
+        console.log('\n\n\n\n\n\n\n');
+    }
     let doublePlunder = false;
     battleStrength = userStrength;
-    console.log("\n\n\n\n\nYour Rivals:\n")
+    console.log("Rivals:\n")
     console.log(`${rivalA.name}\nStrength: ${rivalA.strength}\nGold: ${rivalA.gold}\nVictories: ${rivalA.victories}\n`);
     console.log(`${rivalB.name}\nStrength: ${rivalB.strength}\nGold: ${rivalB.gold}\nVictories: ${rivalB.victories}\n`);
     console.log(`${rivalC.name}\nStrength: ${rivalC.strength}\nGold: ${rivalC.gold}\nVictories: ${rivalC.victories}\n`);
@@ -186,7 +166,7 @@ function fight() {
         currentOpponent = rivalA;
         console.log("\n\n\n\n\n\n\nPrepare for battle! Roll the dice for a temporary battle effect.\n");
         battleEffectsOnTurn.forEach(effect => console.log("[" + (battleEffectsOnTurn.indexOf(effect) + 1) + "] " + effect));
-        prompt.question("\nType 'roll' to roll the dice.\n");
+        prompt.question("\nType 'roll' to roll the dice.\n\n");
         userDiceRoll = Math.floor((Math.random() * 6) + 1);
         let userBattleEffect = battleEffectsOnTurn[userDiceRoll - 1];
         console.log(`\n\n\n\n\n\n\nYou roll... ${userDiceRoll}! ${userBattleEffect}.`);
@@ -524,44 +504,77 @@ function fight() {
         } 
     }
 
-        // add options for fighting rivals 2 and 3 
         if (currentOpponent === rivalA) {        
             console.log(`\nTime for Battle! \n${userCharacter} (${battleStrength} strength)\n         vs.\n${rivalA.name} (${rivalA.strength} strength)\n`);
-        } else if (currentOpponent === rivalB) {        
-            console.log(`\nTime for Battle! \n${userCharacter} (${battleStrength} strength)\n         vs.\n${rivalB.name} (${rivalB.strength} strength)\n`);
-        } else if (currentOpponent === rivalC) {        
-            console.log(`\nTime for Battle! \n${userCharacter} (${battleStrength} strength)\n         vs.\n${rivalC.name} (${rivalC.strength} strength)\n`);
-        };
-        prompt.question(`\nType 'fight' to fight ${rivalA.name}.\n`);
-        if (battleStrength > rivalA.strength) {
-           
+            prompt.question(`\nType 'fight' to fight ${rivalA.name}.\n`);
+            if (battleStrength > rivalA.strength) {
+                currentVictories++;
+                let plunderAmount = parseInt(rivalA.gold * (Math.floor(Math.random() * 34) / 100));
+                if (doublePlunder === false) {
+                    currentGold += plunderAmount;
+                    rivalA.gold -= plunderAmount;
+                    console.log(`\n\n\n\n\n\n\nYou overpower ${rivalA.name} and achieve victory!\nTotal victories: ${currentVictories}
+                \nYou manage to plunder ${plunderAmount} of ${rivalA.name}'s gold.\nTotal Gold: ${currentGold}`);
+                } else if (doublePlunder === true && battleEffectsMultiplier === 2) {
+                    currentGold += plunderAmount * 4;
+                    rivalA.gold -= plunderAmount * 4;
+                    console.log(`\n\n\n\n\n\n\nYou overpower ${rivalA.name} and achieve victory!\nTotal victories: ${currentVictories}
+                \nDouble Plunder active! Battle Effects Multiplier active! You manage to plunder ${plunderAmount * 4} of ${rivalA.name}'s gold.\nTotal Gold: ${currentGold}`);
+                } else if (doublePlunder === true) {
+                    currentGold += plunderAmount * 2;
+                    rivalA.gold -= plunderAmount * 2;
+                    console.log(`\n\n\n\n\n\n\nYou overpower ${rivalA.name} and achieve victory!\nTotal victories: ${currentVictories}
+                \nDouble Plunder active! You manage to plunder ${plunderAmount * 2} of ${rivalA.name}'s gold.\nTotal Gold: ${currentGold}`);
+                }
+                newTurn();
+            } else if (battleStrength < rivalA.strength) {
+                console.log(`\n\n\n\n\n\n\nDefeat! ${rivalA.name} gains a victory.`);
+                rivalA.victories++;
+                let plunderAmount = parseInt(rivalA.gold * (Math.floor(Math.random() * 34) / 100));
+                if (immuneFromPlunder === false) {
+                    console.log(`${rivalA.name} plundered ${plunderAmount} of your gold!`);
+                    currentGold -= plunderAmount;
+                    rivalA.gold += plunderAmount;
+                } else if (immuneFromPlunder == true) {
+                    console.log(`Shop item activated! You were protected you from losing any gold.`)
+                    immuneFromPlunder = false;
+                }
+                newTurn();
+            } else {
+                console.log("\nIt's a draw! Neither combatant gains a victory.");
+                newTurn();
+            }
+    } else if (currentOpponent === rivalB) {        
+        console.log(`\nTime for Battle! \n${userCharacter} (${battleStrength} strength)\n         vs.\n${rivalB.name} (${rivalB.strength} strength)\n`);
+        prompt.question(`\nType 'fight' to fight ${rivalB.name}.\n`);
+        if (battleStrength > rivalB.strength) {
             currentVictories++;
-            let plunderAmount = parseInt(rivalA.gold * (Math.floor(Math.random() * 34) / 100));
+            let plunderAmount = parseInt(rivalB.gold * (Math.floor(Math.random() * 34) / 100));
             if (doublePlunder === false) {
                 currentGold += plunderAmount;
-                rivalA.gold -= plunderAmount;
-                console.log(`\n\n\n\n\n\n\nYou overpower ${rivalA.name} and achieve victory!\nTotal victories: ${currentVictories}
-            \nYou manage to plunder ${plunderAmount} of ${rivalA.name}'s gold.\nTotal Gold: ${currentGold}`);
+                rivalB.gold -= plunderAmount;
+                console.log(`\n\n\n\n\n\n\nYou overpower ${rivalB.name} and achieve victory!\nTotal victories: ${currentVictories}
+            \nYou manage to plunder ${plunderAmount} of ${rivalB.name}'s gold.\nTotal Gold: ${currentGold}`);
             } else if (doublePlunder === true && battleEffectsMultiplier === 2) {
                 currentGold += plunderAmount * 4;
-                rivalA.gold -= plunderAmount * 4;
-                console.log(`\n\n\n\n\n\n\nYou overpower ${rivalA.name} and achieve victory!\nTotal victories: ${currentVictories}
-            \nDouble Plunder active! Battle Effects Multiplier active! You manage to plunder ${plunderAmount * 4} of ${rivalA.name}'s gold.\nTotal Gold: ${currentGold}`);
+                rivalB.gold -= plunderAmount * 4;
+                console.log(`\n\n\n\n\n\n\nYou overpower ${rivalB.name} and achieve victory!\nTotal victories: ${currentVictories}
+            \nDouble Plunder active! Battle Effects Multiplier active! You manage to plunder ${plunderAmount * 4} of ${rivalB.name}'s gold.\nTotal Gold: ${currentGold}`);
             } else if (doublePlunder === true) {
                 currentGold += plunderAmount * 2;
-                rivalA.gold -= plunderAmount * 2;
-                console.log(`\n\n\n\n\n\n\nYou overpower ${rivalA.name} and achieve victory!\nTotal victories: ${currentVictories}
-            \nDouble Plunder active! You manage to plunder ${plunderAmount * 2} of ${rivalA.name}'s gold.\nTotal Gold: ${currentGold}`);
+                rivalB.gold -= plunderAmount * 2;
+                console.log(`\n\n\n\n\n\n\nYou overpower ${rivalB.name} and achieve victory!\nTotal victories: ${currentVictories}
+            \nDouble Plunder active! You manage to plunder ${plunderAmount * 2} of ${rivalB.name}'s gold.\nTotal Gold: ${currentGold}`);
             }
             newTurn();
-        } else if (battleStrength < rivalA.strength) {
-            console.log(`\n\n\n\n\n\n\nDefeat! ${rivalA.name} gains a victory.`);
-            rivalA.victories++;
-            let plunderAmount = parseInt(rivalA.gold * (Math.floor(Math.random() * 34) / 100));
+        } else if (battleStrength < rivalB.strength) {
+            console.log(`\n\n\n\n\n\n\nDefeat! ${rivalB.name} gains a victory.`);
+            rivalB.victories++;
+            let plunderAmount = parseInt(rivalB.gold * (Math.floor(Math.random() * 34) / 100));
             if (immuneFromPlunder === false) {
-                console.log(`${rivalA.name} plundered ${plunderAmount} of your gold!`);
+                console.log(`${rivalB.name} plundered ${plunderAmount} of your gold!`);
                 currentGold -= plunderAmount;
-                rivalA.gold += plunderAmount;
+                rivalB.gold += plunderAmount;
             } else if (immuneFromPlunder == true) {
                 console.log(`Shop item activated! You were protected you from losing any gold.`)
                 immuneFromPlunder = false;
@@ -571,9 +584,51 @@ function fight() {
             console.log("\nIt's a draw! Neither combatant gains a victory.");
             newTurn();
         }
+    } else if (currentOpponent === rivalC) {        
+        console.log(`\nTime for Battle! \n${userCharacter} (${battleStrength} strength)\n         vs.\n${rivalC.name} (${rivalC.strength} strength)\n`);
+        prompt.question(`\nType 'fight' to fight ${rivalC.name}.\n`);
+        if (battleStrength > rivalC.strength) {
+            currentVictories++;
+            let plunderAmount = parseInt(rivalC.gold * (Math.floor(Math.random() * 34) / 100));
+            if (doublePlunder === false) {
+                currentGold += plunderAmount;
+                rivalC.gold -= plunderAmount;
+                console.log(`\n\n\n\n\n\n\nYou overpower ${rivalC.name} and achieve victory!\nTotal victories: ${currentVictories}
+            \nYou manage to plunder ${plunderAmount} of ${rivalC.name}'s gold.\nTotal Gold: ${currentGold}`);
+            } else if (doublePlunder === true && battleEffectsMultiplier === 2) {
+                currentGold += plunderAmount * 4;
+                rivalC.gold -= plunderAmount * 4;
+                console.log(`\n\n\n\n\n\n\nYou overpower ${rivalC.name} and achieve victory!\nTotal victories: ${currentVictories}
+            \nDouble Plunder active! Battle Effects Multiplier active! You manage to plunder ${plunderAmount * 4} of ${rivalC.name}'s gold.\nTotal Gold: ${currentGold}`);
+            } else if (doublePlunder === true) {
+                currentGold += plunderAmount * 2;
+                rivalC.gold -= plunderAmount * 2;
+                console.log(`\n\n\n\n\n\n\nYou overpower ${rivalC.name} and achieve victory!\nTotal victories: ${currentVictories}
+            \nDouble Plunder active! You manage to plunder ${plunderAmount * 2} of ${rivalC.name}'s gold.\nTotal Gold: ${currentGold}`);
+            }
+            newTurn();
+        } else if (battleStrength < rivalC.strength) {
+            console.log(`\n\n\n\n\n\n\nDefeat! ${rivalC.name} gains a victory.`);
+            rivalC.victories++;
+            let plunderAmount = parseInt(rivalC.gold * (Math.floor(Math.random() * 34) / 100));
+            if (immuneFromPlunder === false) {
+                console.log(`${rivalC.name} plundered ${plunderAmount} of your gold!`);
+                currentGold -= plunderAmount;
+                rivalC.gold += plunderAmount;
+            } else if (immuneFromPlunder == true) {
+                console.log(`Shop item activated! You were protected you from losing any gold.`)
+                immuneFromPlunder = false;
+            }
+            newTurn();
+        } else {
+            console.log("\nIt's a draw! Neither combatant gains a victory.");
+            newTurn();
+        }
+    } else {
+        fight("invalid input");
+    }
 
-
-} /// add other rivals, plus "else" for invalid input
+}
 
 
 function askForAction(param1) {
@@ -660,21 +715,23 @@ function newTurn() {
         if (winners.length > 1) {
             console.log(`\nMultiple combatants have reached 5 victories! The winners are:`);
             winners.forEach(element => console.log(element));
-            endGame();
+            let playAgain = prompt.question(`\n\nFinal Strength: ${userStrength}\nFinal Gold: ${currentGold}\n\nPress [y] to play again\n\n`);
+            if (playAgain === 'y') {
+                runGame();
+            }
         } else if (winners.length === 1) {
-            console.log(`\nThe Champion of Wyncode is:\n`)
-            console.log(`*****${winners[0]}*****`)
+            console.log(`\nThe Champion of Wyncode is:\n`);
+            console.log(`*****${winners[0]}*****`);
+            let playAgain = prompt.question(`\n\nFinal Strength: ${userStrength}\nFinal Gold: ${currentGold}\n\nPress [y] to play again\n\n`);
+            if (playAgain === 'y') {
+                runGame();
+            }
         }    
     }
-
-    // account for rival and user or two rivals reaching 5 victories on the same turn.
 
     prompt.question("\nPress 'Enter' to go on to the next turn.\n"); 
     currentOpponent = "";    
     currentTurn++;
-    // check current victories of all combatants - SWITCH STATEMENT WOULD BE GOOD HERE
-        // return '1 more victory to win' if any have four victories
-        // display "[rival] won" or "You won" if victories === 5
     askForAction();
 }
 
@@ -791,8 +848,6 @@ function simulateNPCActionsOnFortification() {
         console.log(`\nNo battles took place this turn. All rivals fortified.\n${rivalA.name} +${rivalAFortificationAmount} Strength\n${rivalB.name} +${rivalBFortificationAmount} Strength\n${rivalC.name} +${rivalCFortificationAmount} Strength\n`);
     } 
 }
-
-function endGame() {
-    // get prompt asking if user wants to play again or just quit
-        // play again? run rungame function which encompasses everything except instructions. 
 }
+
+runGame();
