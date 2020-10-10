@@ -23,33 +23,35 @@ let currentTurn = 1;
 // rivals need to be accumulating victories
 
 
+let userNation = "⩷ ⨻  ⩈ ⨷ Hrothgar";
+
 
 let userStrength = 1000;
 let currentGold = 85;
 let currentVictories = 0;
 
 let immuneFromPlunder = false;
-
+let battleEffectsMultiplier = 1;
 
 function displayStats() {
-    console.log(`\nYour Base Strength: ${userStrength}\nYour Gold: ${currentGold}\nYour Victories: ${currentVictories}\n`)
+    console.log(`\n${userNation}\nBase Strength: ${userStrength}\nGold: ${currentGold}\nVictories: ${currentVictories}\n`);
 }
 
 // let double-dice = false; (REMEMBER TO SET THIS BACK TO FALSE AFTER DICE ROLL)
 // let double-plunder = false; (REMEMBER TO SET THIS BACK TO FALSE AFTER A VICTORY)
 
 function shufflePrices() {    
-    let priceA = 45 + Math.floor(Math.random() * 11);
-    let priceB = 80 + Math.floor(Math.random() * 41);
-    let priceC = 175 + Math.floor(Math.random() * 51);
+    let priceA = 4 + Math.floor(Math.random() * 11);
+    let priceB = 8 + Math.floor(Math.random() * 41);
+    let priceC = 5 + Math.floor(Math.random() * 51);
     if (currentTurn === 1) {
         priceA = 50;
-        priceB = 100;
+        priceB = 10;
         priceC = 20;
     }
     function showShopItems() {
     let itemChoice = prompt.question(`You have ${currentGold} gold. Make a selection or return to Action Select.\n\n
- [a] base strength +300 - ${priceA} gold  \n\n [b] double battle effects - ${priceB} gold \n\n [c] don't lose gold on defeat - ${priceC} gold\n\n [x] Back to Action Select\n`);
+ [a] base strength +300 - ${priceA} gold  \n\n [b] double battle effects - ${priceB} gold \n\n [c] don't lose gold on next defeat - ${priceC} gold\n\n [x] Back to Action Select\n`);
     
         if (itemChoice === 'a') {
             if (priceA <= currentGold) {
@@ -66,6 +68,7 @@ function shufflePrices() {
         } else if (itemChoice === 'b') {
             if (priceB <= currentGold) {
                 currentGold = currentGold - priceB;
+                battleEffectsMultiplier = 2;
                 console.log(`\n\n\n\n\n\n\nPurchased Item2. \n\nRemaining gold: ${currentGold}\n`);
                 prompt.question(`Press 'Enter to return to Action Select.\n`);
                 askForAction();
@@ -96,7 +99,7 @@ function shufflePrices() {
 
 let rivalA = {
     name: "red",
-    strength: 1850,
+    strength: 1250,
     gold: 100, 
     victories: 0
 }
@@ -120,9 +123,9 @@ let battleEffectsIndex;
 
 function shuffleBattleEffects() {
     battleEffectsOnTurn = [];
-    let allBattleEffects = ["Plunder on Victory x2", "Plunder on Victory x2", "Plunder on Victory x2", "Plunder on Victory x2", "Gold +75", "Strength -250"] //, "Strength -100", "Strength +250", "Plunder on Victory x2", "Gold -25", "Strength +200"];
+    let allBattleEffects = ["Strength +25%", "Strength +300", "Plunder on Victory x2", "Plunder on Victory x2", "Gold +75", "Strength -250"] //, "Strength -100", "Strength +250", "Plunder on Victory x2", "Gold -25", "Strength +200"];
     let i = 1;
-    while (i <= 6) {
+    while (i <= 6) { // change back to 6
         battleEffectsIndex = Math.floor(Math.random() * allBattleEffects.length);
         battleEffectsOnTurn.push(allBattleEffects[battleEffectsIndex]);
         allBattleEffects.splice(battleEffectsIndex, 1);
@@ -130,7 +133,6 @@ function shuffleBattleEffects() {
     }
 }
 
-// if userBattleEffect = double plunder, do something 
 
 let currentOpponent;
 let battleStrength;
@@ -153,46 +155,74 @@ function fight() {
         userDiceRoll = Math.floor((Math.random() * 6) + 1);
         let userBattleEffect = battleEffectsOnTurn[userDiceRoll - 1];
         console.log(`\n\n\n\n\n\n\nYour dice roll... ${userDiceRoll}! ${userBattleEffect}`);
- 
-        // if userBattleEffect = double plunder, do something 
-        // if userBattleEffect = STrength+1, userStrength = Strength+ 1
-        // etc etc 
+        if (battleEffectsMultiplier === 1) {    
+            if (userBattleEffect === "Strength +300") {
+                battleStrength += 300;
+                console.log(`Your strength for this battle is ${battleStrength}`);
+            }
 
-        if (userBattleEffect === "Strength +300") {
-            battleStrength += 300;
-            console.log(`Your strength for this battle is ${battleStrength}`);
-        }
+            if (userBattleEffect === "Gold +40") {
+                currentGold += 40;
+                console.log(`You now have ${currentGold} gold.`);
+            }
 
-        if (userBattleEffect === "Gold +40") {
-            currentGold += 40;
-            console.log(`You now have ${currentGold} gold.`);
-        }
+            if (userBattleEffect === "Strength +25%") {
+                battleStrength = userStrength * 1.25;
+                console.log(`Your strength for this battle is ${battleStrength}`);
+            }
 
-        if (userBattleEffect === "Strength x 125%") {
-            battleStrength = userStrength * 1.25;
-            console.log(`Your strength for this battle is ${battleStrength}`);
-        }
+            if (userBattleEffect === "Plunder on Victory x2") {
+                doublePlunder = true;
+            }
 
-        if (userBattleEffect === "Plunder on Victory x2") {
-            doublePlunder = true;
-        }
+            if (userBattleEffect === "Gold +75") {
+                currentGold += 75;
+                console.log(`You now have ${currentGold} gold.`);
+            }
 
-        if (userBattleEffect === "Gold +75") {
-            currentGold += 75;
-            console.log(`You now have ${currentGold} gold.`);
-        }
+            if (userBattleEffect === "Strength -250") {
+                battleStrength = userStrength -250;
+                console.log(`Your strength for this battle is ${battleStrength}`);
+            }
+        }   else if (battleEffectsMultiplier === 2) {
+            if (userBattleEffect === "Strength +300") {
+                battleStrength += 600;
+                console.log(`Battle Effects Multiplier Active! ${userBattleEffect} x2! Your strength for this battle is ${battleStrength}`);
+               
+            }
 
-        if (userBattleEffect === "Strength -250") {
-            battleStrength = userStrength -250;
-            console.log(`Your strength for this battle is ${battleStrength}`);
-        }
+            if (userBattleEffect === "Gold +40") {
+                currentGold += 80;
+                console.log(`Battle Effects Multiplier Active! ${userBattleEffect} x2! You now have ${currentGold} gold.`);
+              
+            }
 
+            if (userBattleEffect === "Strength +25%") {
+                battleStrength = userStrength * 1.5;
+                console.log(`Battle Effects Multiplier Active! ${userBattleEffect} x2! Your strength for this battle is ${battleStrength}`);
+               
+            }
+
+            if (userBattleEffect === "Plunder on Victory x2") {
+                doublePlunder = true;
+            }
+
+            if (userBattleEffect === "Gold +75") {
+                currentGold += 150;
+                console.log(`Battle Effects Multiplier Active! ${userBattleEffect} x2! You now have ${currentGold} gold.`);
+               
+            }
+
+            if (userBattleEffect === "Strength -250") {
+                battleStrength = userStrength -500;
+                console.log(`Battle Effects Multiplier Active! ${userBattleEffect} x2! Your strength for this battle is ${battleStrength}`);
+            }
+        } 
         // add the other 6 battle effects
 
-        // add options for fighting rivals 2 and 3
-
+        // add options for fighting rivals 2 and 3 
+        console.log(`\n\n\n\n\n\n\n${userNation} (${battleStrength} strength)\n             vs.\n${rivalA.name} (${rivalA.strength} strength)`)
         prompt.question(`\nTime for battle! Type 'fight' to fight ${rivalA.name}.\n`);
-        console.log(`\n\n\n\n\n\n\nYour strength: ${battleStrength}\n${rivalA.name}'s strength: ${rivalA.strength}`)
         if (battleStrength > rivalA.strength) {
            
             currentVictories++;
@@ -202,15 +232,20 @@ function fight() {
                 rivalA.gold -= plunderAmount;
                 console.log(`\nYou overpower ${rivalA.name} and achieve victory!\nTotal victories: ${currentVictories}
             \nYou manage to plunder ${plunderAmount} of ${rivalA.name}'s gold.\nTotal Gold: ${currentGold}`);
+            } else if (doublePlunder === true && battleEffectsMultiplier === 2) {
+                currentGold += plunderAmount * 4;
+                rivalA.gold -= plunderAmount * 4;
+                console.log(`\n\n\n\n\n\n\nYou overpower ${rivalA.name} and achieve victory!\nTotal victories: ${currentVictories}
+            \nDouble Plunder active! Battle Effects Multiplier active! You manage to plunder ${plunderAmount * 4} of ${rivalA.name}'s gold.\nTotal Gold: ${currentGold}`);
             } else if (doublePlunder === true) {
                 currentGold += plunderAmount * 2;
                 rivalA.gold -= plunderAmount * 2;
-                console.log(`\nYou overpower ${rivalA.name} and achieve victory!\nTotal victories: ${currentVictories}
-            \nYou manage to plunder ${plunderAmount * 2} of ${rivalA.name}'s gold.\nTotal Gold: ${currentGold}`);
-            }  
+                console.log(`\n\n\n\n\n\n\nYou overpower ${rivalA.name} and achieve victory!\nTotal victories: ${currentVictories}
+            \nDouble Plunder active! You manage to plunder ${plunderAmount * 2} of ${rivalA.name}'s gold.\nTotal Gold: ${currentGold}`);
+            }
             newTurn();
         } else if (battleStrength < rivalA.strength) {
-            console.log(`\nDefeat! ${rivalA.name} gains a victory.`);
+            console.log(`\n\n\n\n\n\n\nDefeat! ${rivalA.name} gains a victory.`);
             rivalA.victories++;
             let plunderAmount = parseInt(rivalA.gold * (Math.floor(Math.random() * 34) / 100));
             if (immuneFromPlunder === false) {
@@ -243,7 +278,7 @@ function askForAction() {
     } else if (actionSelection ==="c") {
         fortify();
     } else {
-        console.log('\nInvalid. Please input "a" "b" or "c"');
+        console.log('\nInvalid. Input "a" "b" or "c"');
         askForAction();
     }
 }
@@ -251,9 +286,14 @@ function askForAction() {
 askForAction();
 
 function newTurn() {
+    battleEffectsMultiplier = 1;
     if (currentOpponent === rivalA) {
         simulateNPCBattle(rivalB, rivalC);
-    }
+    } else if (currentOpponent === rivalB) {
+        simulateNPCBattle(rivalA, rivalC);
+    } else if (currentOpponent === rivalC) {
+        simulateNPCBattle(rivalA, rivalB);
+    };
     
     
     prompt.question("\nPress 'Enter' to go on to the next turn.\n"); 
@@ -262,45 +302,121 @@ function newTurn() {
     // randomly add victory to one of rivals that are not currentopponent. 
     // or if fortified, give victory to one other 
     // randomly decide to add strength to rivals; randomly add strength number (multiple of 50)
-    // check current victories of all combatants
+    // check current victories of all combatants - SWITCH STATEMENT WOULD BE GOOD HERE
         // return '1 more victory to win' if any have four victories
         // display "[rival] won" or "You won" if victories === 5
     askForAction();
 }
 
-function fortify() {
-    let fortificationAmount = 0;
-    console.log(`\n\n\n\n\n\n\nPossible fortifications:\n`);
-    let possibleFortificationStrings = ["+100 Base Strength", "+150 Base Strength", "+200 Base Strength", "+250 Base Strength", "+300 Base Strength", "+400 Base Strength", ];
-    possibleFortificationStrings.forEach(effect => console.log("[" + (possibleFortificationStrings.indexOf(effect) + 1) + "] " + effect));
-    let possibleFortificationNums = [100, 150, 200, 250, 300, 400];
-    prompt.question(`\n\nType 'roll' to roll the die for a random fortifaction amount.\n`)
-    userDiceRoll = Math.floor((Math.random() * 6) + 1);
-    fortificationAmount = possibleFortificationNums[userDiceRoll - 1];
-    userStrength += fortificationAmount;
-    console.log(`\nYou die roll...${userDiceRoll}! You gained ${fortificationAmount} Base Strength.\nTotal strength: ${userStrength}`);
-    newTurn();
+function fortify(source) {
+    if (source === 'invalid input') {
+        let fortificationAmount = 0;
+        console.log(`"\n\n\n\n\n\n\nInvalid. Input 'roll' or 'x'\n\nPossible fortifications:\n`);
+        let possibleFortificationStrings = ["+100 Base Strength", "+150 Base Strength", "+200 Base Strength", "+250 Base Strength", "+300 Base Strength", "+400 Base Strength", ];
+        possibleFortificationStrings.forEach(effect => console.log("[" + (possibleFortificationStrings.indexOf(effect) + 1) + "] " + effect));
+        let possibleFortificationNums = [100, 150, 200, 250, 300, 400];
+        let fortifyOrNot = prompt.question(`\n\nType 'roll' to roll the die for a random fortifaction.\nType 'x' to return to Action Select.\n`)
+        if (fortifyOrNot === "roll") {
+            userDiceRoll = Math.floor((Math.random() * 6) + 1);
+            fortificationAmount = possibleFortificationNums[userDiceRoll - 1];
+            userStrength += fortificationAmount;
+            console.log(`\nYou die roll...${userDiceRoll}! You gained ${fortificationAmount} Base Strength.\nTotal strength: ${userStrength}`);
+            simulateNPCActionsOnFortification();
+            newTurn();
+        } else if (fortifyOrNot === 'x') {
+            askForAction();
+        } else {
+            console.log();
+            fortify("invalid input");
+        }
+    } else {
+        console.log(`"\n\n\n\n\n\n\nPossible fortifications:\n`);
+        let possibleFortificationStrings = ["+100 Base Strength", "+150 Base Strength", "+200 Base Strength", "+250 Base Strength", "+300 Base Strength", "+400 Base Strength", ];
+        possibleFortificationStrings.forEach(effect => console.log("[" + (possibleFortificationStrings.indexOf(effect) + 1) + "] " + effect));
+        let possibleFortificationNums = [100, 150, 200, 250, 300, 400];
+        let fortifyOrNot = prompt.question(`\n\nType 'roll' to roll the die for a random fortifaction.\nType 'x' to return to Action Select.\n`)
+        if (fortifyOrNot === "roll") {
+            userDiceRoll = Math.floor((Math.random() * 6) + 1);
+            fortificationAmount = possibleFortificationNums[userDiceRoll - 1];
+            userStrength += fortificationAmount;
+            console.log(`\nYou die roll...${userDiceRoll}! You gained ${fortificationAmount} Base Strength.\nTotal strength: ${userStrength}`);
+            simulateNPCActionsOnFortification();
+            newTurn();
+        } else if (fortifyOrNot === 'x') {
+            askForAction();
+        } else {
+            console.log();
+            fortify("invalid input");
+        }
+    }
 }
 
 function simulateNPCBattle(NPC1, NPC2) {
-    let NPCBattleDecider = Math.floor(Math.random() * 11);
+    let NPCBattleDecider = (Math.floor(Math.random() * 10) + 1);
     if (NPCBattleDecider > 2) {
-        console.log(`\n\nAnother battle took place this turn: ${NPC1.name} vs. ${NPC2.name}.\n`);
+        console.log(`\nAnother battle took place this turn: ${NPC1.name} vs. ${NPC2.name}.\n`);
         let NPC1BattleStrength = NPC1.strength + ((Math.floor(Math.random() * 3) + 1) * 100);
         let NPC2BattleStrength = NPC2.strength + ((Math.floor(Math.random() * 3) + 1) * 100);
-        console.log(`${NPC1.name} battlestrength: ${NPC1BattleStrength}. ${NPC2.name} battlestrneght: ${NPC2BattleStrength}`)
+        // console.log(`${NPC1.name} battlestrength: ${NPC1BattleStrength}. ${NPC2.name} battlestrneght: ${NPC2BattleStrength}`)
         if (NPC1BattleStrength > NPC2BattleStrength) {
             NPC1.victories++;
-            console.log(NPC1.name + `Wins. They now have ${NPC1.victories} victories.`);
+            console.log(NPC1.name + `Emerged victorious. They now have ${NPC1.victories} victories.`);
         } else if (NPC2BattleStrength > NPC1BattleStrength) {
             NPC2.victories++;
-            console.log(NPC2.name + `Wins. They now have ${NPC2.victories} victories.`);
+            console.log(NPC2.name + `Emerged victorious. They now have ${NPC2.victories} victories.`);
         } else {
-        console.log("The battle ended in a draw!");
+        console.log("The battle ended in a draw! Neither combatant gains a victory.");
         }
     } else {
         console.log(`\n\nNo other battle took place this turn. ${NPC1.name} and ${NPC2.name} both fortified.\n`);
         NPC1.strength += ((Math.floor(Math.random() * 4) + 1) * 100);
         NPC2.strength += ((Math.floor(Math.random() * 4) + 1) * 100);
     }
+}
+
+function simulateNPCActionsOnFortification() {
+    let rivalsArray = [rivalA, rivalB, rivalC];
+    // console.log(rivalsArray);
+    let NPCBattleDecider = (Math.floor(Math.random() * 10) + 1);
+    if (NPCBattleDecider > 2) {
+        let combatant1 = rivalsArray[Math.floor(Math.random() * 3)];
+        rivalsArray.splice(rivalsArray.indexOf(combatant1), 1);
+        let combatant2 = rivalsArray[Math.floor(Math.random() * 2)];
+        rivalsArray.splice(rivalsArray.indexOf(combatant2), 1);
+        console.log(`A battle took place this turn between ${combatant1.name} and ${combatant2.name}.\n`);
+        let combatant1Strength = combatant1.strength + ((Math.floor(Math.random() * 3) + 1) * 100);
+        let combatant2Strength = combatant2.strength + ((Math.floor(Math.random() * 3) + 1) * 100);
+        if (combatant1Strength > combatant2Strength) {
+            combatant1.victories++;
+            let plunderAmount = parseInt(combatant2.gold * (Math.floor(Math.random() * 34) / 100));
+            combatant1.gold += plunderAmount;
+            combatant2.gold -= plunderAmount;
+            console.log(combatant1.name + ` Emerged victorious and plundered ${plunderAmount} gold. ${combatant1.name}'s Victories: ${combatant1.victories}.`);
+        } else if (combatant2Strength > combatant1Strength) {
+            combatant2.victories++;
+            let plunderAmount = parseInt(combatant1.gold * (Math.floor(Math.random() * 34) / 100));
+            combatant2.gold += plunderAmount;
+            combatant1.gold -= plunderAmount;
+            console.log(combatant2.name + ` Emerged victorious and plundered ${plunderAmount} gold. ${combatant2.name}'s Victories: ${combatant2.victories}.`);
+        } else {
+        console.log("The battle ended in a draw! Neither combatant gains a victory.");
+        }
+        let fortifyingRival = rivalsArray[0];
+        let fortifyingRivalFortification = ((Math.floor(Math.random() * 4) + 1) * 100);
+        fortifyingRival.strength += fortifyingRivalFortification;
+        // console.log(rivalsArray);
+        console.log(`\n${fortifyingRival.name} fortified and gained ${fortifyingRivalFortification} Strength.`);
+    }
+    else {
+        let rivalAFortificationAmount = ((Math.floor(Math.random() * 4) + 1) * 100);
+        let rivalBFortificationAmount = ((Math.floor(Math.random() * 4) + 1) * 100);
+        let rivalCFortificationAmount = ((Math.floor(Math.random() * 4) + 1) * 100);
+        
+        rivalA.strength += rivalAFortificationAmount;
+        rivalB.strength += rivalBFortificationAmount;
+        rivalC.strength += rivalCFortificationAmount;
+        
+        console.log(`\nNo battles took place this turn. All rivals fortified.\n${rivalA.name} +${rivalAFortificationAmount} Strength\n
+        ${rivalB.name} +${rivalBFortificationAmount} Strength\n${rivalC.name} +${rivalCFortificationAmount} Strength\n`);
+    } 
 }
