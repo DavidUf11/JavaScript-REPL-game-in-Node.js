@@ -1,14 +1,14 @@
 const prompt = require('readline-sync');
 
-const userName = prompt.question("What is your name? ");
+// const userName = prompt.question("What is your name? ");
 
-console.log(userName);
+// console.log(userName);
 
 let turn = 0;
 
 // add choose your nation options
 
-// log "welcom to..." + goal + instructions .  Keep in mind, shop prices fluctuate so lookout for good deals!\n
+// log "welcom to..." + goal (attain five victory stasrs?) + instructions .  Keep in mind, shop prices fluctuate so lookout for good deals!\n
 
 // ask user for namne
 
@@ -26,10 +26,17 @@ let turn = 0;
 
 // let selection;
 
-let currentGold = 85;
 let userStrength = 1000;
+let currentGold = 85;
+let currentVictories = 0;
 
-// let double-dice = false; 
+
+function displayStats() {
+    console.log(`\nYour Strength: ${userStrength}\nYour Gold: ${currentGold}\n Your Victories: ${currentVictories}\n`)
+}
+
+// let double-dice = false; (REMEMBER TO SET THIS BACK TO FALSE AFTER DICE ROLL)
+// let double-plunder = false; (REMEMBER TO SET THIS BACK TO FALSE AFTER A VICTORY)
 
 function shufflePrices() {    
     let priceA = 45 + Math.floor(Math.random() * 11);
@@ -84,33 +91,62 @@ function shufflePrices() {
 
 let rival1 = {
     name: "red",
-    strength: 650,
-    gold: 80
+    strength: 500,
+    gold: 83
 }
 
 let rival2 = {
     name: "blue",
     strength: 1100,
-    gold: 135
+    gold: 105
 }
 
 let rival3 = {
     name: "green",
     strength: 725,
-    gold: 135
+    gold: 237
 }
 
+let battleEffectsOnTurn;
+let battleEffectsIndex;
+
+function shuffleBattleEffects() {
+    battleEffectsOnTurn = [];
+    let allBattleEffects = ["effect 1", "effect 2", "effect 3", "Strength x 120%", "Plunder on victory x2", "effect 6", "Strength -250", "effect 8", "Strength +250", "effect 10", "effect 11", "effect 12"];
+    let i = 1;
+    while (i <= 6) {
+        battleEffectsIndex = Math.floor(Math.random() * allBattleEffects.length);
+        battleEffectsOnTurn.push(allBattleEffects[battleEffectsIndex]);
+        allBattleEffects.splice(battleEffectsIndex, 1);
+        i++
+    }
+}
+
+// if userBattleEffect = double plunder, do something 
 
 function fight() {
     console.log(`${rival1.name}\nstrength: ${rival1.strength}\ngold: ${rival1.gold}\n\n`);
     console.log(`${rival2.name}\nstrength: ${rival2.strength}\ngold: ${rival2.gold}\n\n`);
     console.log(`${rival3.name}\nstrength: ${rival3.strength}\ngold: ${rival3.gold}\n`);
-    let rivalChoice = prompt.question(`Your strength: ${userStrength}. Type in a rival's name to attack.\n`);
+    shuffleBattleEffects();
+    let rivalChoice = prompt.question(`\nYour strength: ${userStrength}.\n\nType in a rival's name to attack.\n`);
     if (rivalChoice === 'red') {
+        console.log("\nPossible battle effects:\n");
+        battleEffectsOnTurn.forEach(effect => console.log("[" + (battleEffectsOnTurn.indexOf(effect) + 1) + "] " + effect));
+        prompt.question("\nPrepare for battle! Type 'roll' to roll the dice!\n");
+        let userDiceRoll = Math.floor((Math.random() * 6) + 1);
+        let userBattleEffect = battleEffectsOnTurn[userDiceRoll - 1];
+        console.log(`\nYour dice roll... ${userDiceRoll}!\n\nYour battle effect: ${userBattleEffect}`);
+ 
+        // if userBattleEffect = double plunder, do something 
+        // if userBattleEffect = STrength+1, userStrength = Strength+ 1
+        // etc etc 
+
+
         if (rival1.strength <= userStrength) {
-            // currentGold = currentGold - priceA;
-            console.log(`\nVictory\n`);
-            // set double-dice to true;
+           
+            console.log("\nVictory\n");
+           
             
         } else {
             console.log("\nDefeat\n ");
@@ -118,8 +154,8 @@ function fight() {
         }
     } else if (rivalChoice === 'blue') {
         if (rival2.strength <= userStrength) {
-            // currentGold = currentGold - priceB;
-            console.log(`\nVictory\n`);
+           
+            console.log(`\nVictory\n victory stars +1 and you plundered some of their riches. gold + random number 10-30% of their gold `);
             
         } else {
             console.log("\nDefeat\n ");
@@ -127,7 +163,7 @@ function fight() {
         }
     } else if (rivalChoice === 'green') {
         if (rival3.strength <= userStrength) {
-            // currentGold = currentGold - priceC;
+            
             console.log(`\nVictory\n`);
             
         } else {
@@ -144,11 +180,11 @@ function fight() {
 
 
 function askForAction() {
-    let selection = prompt.question(`\nTurn ${turn}. What would you like to do?\n[a] Shop   [b] Fight   [c] Fortify\n`);
-    if (selection === "a") {
+    let actionSelection = prompt.question(`\nTurn ${turn}. What would you like to do?\n[a] Shop   [b] Fight   [c] Fortify\n`);
+    if (actionSelection === "a") {
         console.log("\nWelcome to the shop.\n")
         shufflePrices();
-    } else if (selection ==="b") {
+    } else if (actionSelection ==="b") {
         console.log("\nHere are your rivals:\n")
         fight();
     } else {
