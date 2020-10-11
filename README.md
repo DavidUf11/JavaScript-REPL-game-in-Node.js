@@ -1,7 +1,6 @@
 # JavaScript Game
 
-The Battle For Wyncode is a turn-based action game. To win, accumulate five v
-ictories before any of your rivals.
+The Battle For Wyncode is a turn-based action game. To win, accumulate five victories before any of your rivals.
 
 Each turn you can choose from three actions:
 
@@ -13,5 +12,4 @@ tle will gain a Victory.
 
 * Fortify - Gain Strength.
 
-Each turn your rivals can also Battle each other or Fortify. Make sure you ge
-t to five Victories before any of them!
+Each turn your rivals can also Battle each other or Fortify. Make sure you get to five Victories before any of them!
