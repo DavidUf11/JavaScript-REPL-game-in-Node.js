@@ -1,4 +1,4 @@
-# JavaScript Game
+# The Battle for Wyncode
 
 The Battle For Wyncode is a turn-based action game. To win, accumulate five victories before any of your rivals.
 
