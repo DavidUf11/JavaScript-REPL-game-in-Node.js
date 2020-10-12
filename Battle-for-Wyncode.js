@@ -562,14 +562,14 @@ function fight(source) {
                     currentGold += plunderAmount * 4;
                     rivalA.gold -= plunderAmount * 4;
                     console.log(`\n\n\n\n\n\n\nYou overpower ${rivalA.name} and achieve victory!\nTotal victories: ${currentVictories}
-                \nDouble Plunder active! Battle Effects Multiplier active! You manage to plunder ${plunderAmount * 4} of ${rivalA.name}'s gold.\nTotal Gold: ${currentGold}`);
+                \nDouble Plunder active! Battle Effects Multiplier active! You manage to plunder ${plunderAmount} of ${rivalA.name}'s gold.\nTotal Gold: ${currentGold}`);
                 } else if (doublePlunder === true) {
                     plunderAmount = plunderAmount * 2;
                     plunderAmount > rivalA.gold ? plunderAmount = rivalA.gold : plunderAmount = plunderAmount;
                     currentGold += plunderAmount;
                     rivalA.gold -= plunderAmount;
                     console.log(`\n\n\n\n\n\n\nYou overpower ${rivalA.name} and achieve victory!\nTotal victories: ${currentVictories}
-                \nDouble Plunder active! You manage to plunder ${plunderAmount * 2} of ${rivalA.name}'s gold.\nTotal Gold: ${currentGold}`);
+                \nDouble Plunder active! You manage to plunder ${plunderAmount} of ${rivalA.name}'s gold.\nTotal Gold: ${currentGold}`);
                 }
                 newTurn();
             } else if (battleStrength < rivalA.strength) {
@@ -608,14 +608,14 @@ function fight(source) {
                 currentGold += plunderAmount;
                 rivalB.gold -= plunderAmount;
                 console.log(`\n\n\n\n\n\n\nYou overpower ${rivalB.name} and achieve victory!\nTotal victories: ${currentVictories}
-            \nDouble Plunder active! Battle Effects Multiplier active! You manage to plunder ${plunderAmount * 4} of ${rivalB.name}'s gold.\nTotal Gold: ${currentGold}`);
+            \nDouble Plunder active! Battle Effects Multiplier active! You manage to plunder ${plunderAmount} of ${rivalB.name}'s gold.\nTotal Gold: ${currentGold}`);
             } else if (doublePlunder === true) {
                 plunderAmount = plunderAmount * 2;
                 plunderAmount > rivalB.gold ? plunderAmount = rivalB.gold : plunderAmount = plunderAmount;
                 currentGold += plunderAmount;
                 rivalB.gold -= plunderAmount;
                 console.log(`\n\n\n\n\n\n\nYou overpower ${rivalB.name} and achieve victory!\nTotal victories: ${currentVictories}
-            \nDouble Plunder active! You manage to plunder ${plunderAmount * 2} of ${rivalB.name}'s gold.\nTotal Gold: ${currentGold}`);
+            \nDouble Plunder active! You manage to plunder ${plunderAmount} of ${rivalB.name}'s gold.\nTotal Gold: ${currentGold}`);
             }
             newTurn();
         } else if (battleStrength < rivalB.strength) {
@@ -654,14 +654,14 @@ function fight(source) {
                 currentGold += plunderAmount;
                 rivalC.gold -= plunderAmount;
                 console.log(`\n\n\n\n\n\n\nYou overpower ${rivalC.name} and achieve victory!\nTotal victories: ${currentVictories}
-            \nDouble Plunder active! Battle Effects Multiplier active! You manage to plunder ${plunderAmount * 4} of ${rivalC.name}'s gold.\nTotal Gold: ${currentGold}`);
+            \nDouble Plunder active! Battle Effects Multiplier active! You manage to plunder ${plunderAmount} of ${rivalC.name}'s gold.\nTotal Gold: ${currentGold}`);
             } else if (doublePlunder === true) {
                 plunderAmount = plunderAmount * 2;                
                 plunderAmount > rivaC.gold ? plunderAmount = rivalC.gold : plunderAmount = plunderAmount;
                 currentGold += plunderAmount;
                 rivalC.gold -= plunderAmount;
                 console.log(`\n\n\n\n\n\n\nYou overpower ${rivalC.name} and achieve victory!\nTotal victories: ${currentVictories}
-            \nDouble Plunder active! You manage to plunder ${plunderAmount * 2} of ${rivalC.name}'s gold.\nTotal Gold: ${currentGold}`);
+            \nDouble Plunder active! You manage to plunder ${plunderAmount} of ${rivalC.name}'s gold.\nTotal Gold: ${currentGold}`);
             }
             newTurn();
         } else if (battleStrength < rivalC.strength) {
