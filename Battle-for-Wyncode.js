@@ -562,14 +562,14 @@ function fight(source) {
                     currentGold += plunderAmount * 4;
                     rivalA.gold -= plunderAmount * 4;
                     console.log(`\n\n\n\n\n\n\nYou overpower ${rivalA.name} and achieve victory!\nTotal victories: ${currentVictories}
-                \nDouble Plunder active! Battle Effects Multiplier active! You manage to plunder ${plunderAmount * 4} of ${rivalA.name}'s gold.\nTotal Gold: ${currentGold}`);
+                \nDouble Plunder active! Battle Effects Multiplier active! You manage to plunder ${plunderAmount} of ${rivalA.name}'s gold.\nTotal Gold: ${currentGold}`);
                 } else if (doublePlunder === true) {
                     plunderAmount = plunderAmount * 2;
                     plunderAmount > rivalA.gold ? plunderAmount = rivalA.gold : plunderAmount = plunderAmount;
                     currentGold += plunderAmount;
                     rivalA.gold -= plunderAmount;
                     console.log(`\n\n\n\n\n\n\nYou overpower ${rivalA.name} and achieve victory!\nTotal victories: ${currentVictories}
-                \nDouble Plunder active! You manage to plunder ${plunderAmount * 2} of ${rivalA.name}'s gold.\nTotal Gold: ${currentGold}`);
+                \nDouble Plunder active! You manage to plunder ${plunderAmount} of ${rivalA.name}'s gold.\nTotal Gold: ${currentGold}`);
                 }
                 newTurn();
             } else if (battleStrength < rivalA.strength) {
@@ -608,14 +608,14 @@ function fight(source) {
                 currentGold += plunderAmount;
                 rivalB.gold -= plunderAmount;
                 console.log(`\n\n\n\n\n\n\nYou overpower ${rivalB.name} and achieve victory!\nTotal victories: ${currentVictories}
-            \nDouble Plunder active! Battle Effects Multiplier active! You manage to plunder ${plunderAmount * 4} of ${rivalB.name}'s gold.\nTotal Gold: ${currentGold}`);
+            \nDouble Plunder active! Battle Effects Multiplier active! You manage to plunder ${plunderAmount} of ${rivalB.name}'s gold.\nTotal Gold: ${currentGold}`);
             } else if (doublePlunder === true) {
                 plunderAmount = plunderAmount * 2;
                 plunderAmount > rivalB.gold ? plunderAmount = rivalB.gold : plunderAmount = plunderAmount;
                 currentGold += plunderAmount;
                 rivalB.gold -= plunderAmount;
                 console.log(`\n\n\n\n\n\n\nYou overpower ${rivalB.name} and achieve victory!\nTotal victories: ${currentVictories}
-            \nDouble Plunder active! You manage to plunder ${plunderAmount * 2} of ${rivalB.name}'s gold.\nTotal Gold: ${currentGold}`);
+            \nDouble Plunder active! You manage to plunder ${plunderAmount} of ${rivalB.name}'s gold.\nTotal Gold: ${currentGold}`);
             }
             newTurn();
         } else if (battleStrength < rivalB.strength) {
@@ -654,14 +654,14 @@ function fight(source) {
                 currentGold += plunderAmount;
                 rivalC.gold -= plunderAmount;
                 console.log(`\n\n\n\n\n\n\nYou overpower ${rivalC.name} and achieve victory!\nTotal victories: ${currentVictories}
-            \nDouble Plunder active! Battle Effects Multiplier active! You manage to plunder ${plunderAmount * 4} of ${rivalC.name}'s gold.\nTotal Gold: ${currentGold}`);
+            \nDouble Plunder active! Battle Effects Multiplier active! You manage to plunder ${plunderAmount} of ${rivalC.name}'s gold.\nTotal Gold: ${currentGold}`);
             } else if (doublePlunder === true) {
                 plunderAmount = plunderAmount * 2;                
                 plunderAmount > rivaC.gold ? plunderAmount = rivalC.gold : plunderAmount = plunderAmount;
                 currentGold += plunderAmount;
                 rivalC.gold -= plunderAmount;
                 console.log(`\n\n\n\n\n\n\nYou overpower ${rivalC.name} and achieve victory!\nTotal victories: ${currentVictories}
-            \nDouble Plunder active! You manage to plunder ${plunderAmount * 2} of ${rivalC.name}'s gold.\nTotal Gold: ${currentGold}`);
+            \nDouble Plunder active! You manage to plunder ${plunderAmount} of ${rivalC.name}'s gold.\nTotal Gold: ${currentGold}`);
             }
             newTurn();
         } else if (battleStrength < rivalC.strength) {
@@ -886,9 +886,9 @@ function simulateNPCBattle(NPC1, NPC2) {
         console.log("The battle ended in a draw! Neither combatant gains a victory.");
         }
     } else {
-        let NPC1FortificationAmount = ((Math.floor(Math.random() * 4) + 1) * 50);
+        let NPC1FortificationAmount = ((Math.floor(Math.random() * 6) + 1) * 25);
         NPC1.strength += NPC1FortificationAmount;
-        let NPC2FortificationAmount = ((Math.floor(Math.random() * 4) + 1) * 50);
+        let NPC2FortificationAmount = ((Math.floor(Math.random() * 6) + 1) * 25);
         NPC2.strength += NPC2FortificationAmount; 
         console.log(`\n\nNo other battle took place this turn. ${NPC1.name} and ${NPC2.name} both fortified.\n${NPC1.name} +${NPC1FortificationAmount} Strength\n${NPC2.name} +${NPC2FortificationAmount} Strength`);
     }
@@ -922,15 +922,15 @@ function simulateNPCActionsOnFortification() {
         console.log("The battle ended in a draw! Neither combatant gains a victory.");
         }
         let fortifyingRival = rivalsArray[0];
-        let fortifyingRivalFortification = ((Math.floor(Math.random() * 4) + 1) * 50);
+        let fortifyingRivalFortification = ((Math.floor(Math.random() * 6) + 1) * 25);
         fortifyingRival.strength += fortifyingRivalFortification;
         // console.log(rivalsArray);
         console.log(`\n${fortifyingRival.name} fortified and gained ${fortifyingRivalFortification} Strength.`);
     }
     else {
-        let rivalAFortificationAmount = ((Math.floor(Math.random() * 4) + 1) * 50);
-        let rivalBFortificationAmount = ((Math.floor(Math.random() * 4) + 1) * 50);
-        let rivalCFortificationAmount = ((Math.floor(Math.random() * 4) + 1) * 50);
+        let rivalAFortificationAmount = ((Math.floor(Math.random() * 6) + 1) * 25);
+        let rivalBFortificationAmount = ((Math.floor(Math.random() * 6) + 1) * 25);
+        let rivalCFortificationAmount = ((Math.floor(Math.random() * 6) + 1) * 25);
         
         rivalA.strength += rivalAFortificationAmount;
         rivalB.strength += rivalBFortificationAmount;
