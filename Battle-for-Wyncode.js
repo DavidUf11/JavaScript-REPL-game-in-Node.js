@@ -886,9 +886,15 @@ function simulateNPCBattle(NPC1, NPC2) {
         console.log("The battle ended in a draw! Neither combatant gains a victory.");
         }
     } else {
+<<<<<<< HEAD
         let NPC1FortificationAmount = ((Math.floor(Math.random() * 4) + 1) * 25);
         NPC1.strength += NPC1FortificationAmount;
         let NPC2FortificationAmount = ((Math.floor(Math.random() * 4) + 1) * 25);
+=======
+        let NPC1FortificationAmount = ((Math.floor(Math.random() * 6) + 1) * 25);
+        NPC1.strength += NPC1FortificationAmount;
+        let NPC2FortificationAmount = ((Math.floor(Math.random() * 6) + 1) * 25);
+>>>>>>> 143c363ecc2a51c275377a4ce556ad6cde44cb52
         NPC2.strength += NPC2FortificationAmount; 
         console.log(`\n\nNo other battle took place this turn. ${NPC1.name} and ${NPC2.name} both fortified.\n${NPC1.name} +${NPC1FortificationAmount} Strength\n${NPC2.name} +${NPC2FortificationAmount} Strength`);
     }
@@ -922,15 +928,21 @@ function simulateNPCActionsOnFortification() {
         console.log("The battle ended in a draw! Neither combatant gains a victory.");
         }
         let fortifyingRival = rivalsArray[0];
-        let fortifyingRivalFortification = ((Math.floor(Math.random() * 4) + 1) * 50);
+        let fortifyingRivalFortification = ((Math.floor(Math.random() * 6) + 1) * 25);
         fortifyingRival.strength += fortifyingRivalFortification;
         // console.log(rivalsArray);
         console.log(`\n${fortifyingRival.name} fortified and gained ${fortifyingRivalFortification} Strength.`);
     }
     else {
+<<<<<<< HEAD
         let rivalAFortificationAmount = ((Math.floor(Math.random() * 4) + 1) * 25);
         let rivalBFortificationAmount = ((Math.floor(Math.random() * 4) + 1) * 25);
         let rivalCFortificationAmount = ((Math.floor(Math.random() * 4) + 1) * 25);
+=======
+        let rivalAFortificationAmount = ((Math.floor(Math.random() * 6) + 1) * 25);
+        let rivalBFortificationAmount = ((Math.floor(Math.random() * 6) + 1) * 25);
+        let rivalCFortificationAmount = ((Math.floor(Math.random() * 6) + 1) * 25);
+>>>>>>> 143c363ecc2a51c275377a4ce556ad6cde44cb52
         
         rivalA.strength += rivalAFortificationAmount;
         rivalB.strength += rivalBFortificationAmount;
