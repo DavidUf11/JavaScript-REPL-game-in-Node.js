@@ -1,7 +1,5 @@
 const prompt = require('readline-sync');
 
-// test end of game function
-
 function runGame() {
 
 console.log("\n\n\n\n\n\n\n\nWelcome to The Battle for Wyncode!");
@@ -805,15 +803,6 @@ function newTurn() {
     }
 
 
-
-    // let rivalStrengthValues = [rivalA.strength, rivalB.strength, rivalC.strength];
-    // let rivalsArray = [rivalA, rivalB, rivalC];
-
-    // let newStrength = Math.min(rivalStrengthValues) += ((Math.floor(Math.random() * 3) + 1) * 50);
-    // rivalsArray[rivalsArray.indexOf(Math.min(rivalStrengthValues))].strength = newStrength;
-
-
-
     prompt.question("\nPress 'Enter' to go on to the next turn.\n\n"); 
     currentOpponent = "";    
     currentTurn++;
@@ -886,9 +875,15 @@ function simulateNPCBattle(NPC1, NPC2) {
         console.log("The battle ended in a draw! Neither combatant gains a victory.");
         }
     } else {
+<<<<<<< HEAD
         let NPC1FortificationAmount = ((Math.floor(Math.random() * 4) + 1) * 25);
         NPC1.strength += NPC1FortificationAmount;
         let NPC2FortificationAmount = ((Math.floor(Math.random() * 4) + 1) * 25);
+=======
+        let NPC1FortificationAmount = ((Math.floor(Math.random() * 6) + 1) * 25);
+        NPC1.strength += NPC1FortificationAmount;
+        let NPC2FortificationAmount = ((Math.floor(Math.random() * 6) + 1) * 25);
+>>>>>>> 3f1bc675587737add3a457061c02590a537d2c45
         NPC2.strength += NPC2FortificationAmount; 
         console.log(`\n\nNo other battle took place this turn. ${NPC1.name} and ${NPC2.name} both fortified.\n${NPC1.name} +${NPC1FortificationAmount} Strength\n${NPC2.name} +${NPC2FortificationAmount} Strength`);
     }
@@ -922,15 +917,21 @@ function simulateNPCActionsOnFortification() {
         console.log("The battle ended in a draw! Neither combatant gains a victory.");
         }
         let fortifyingRival = rivalsArray[0];
-        let fortifyingRivalFortification = ((Math.floor(Math.random() * 4) + 1) * 50);
+        let fortifyingRivalFortification = ((Math.floor(Math.random() * 6) + 1) * 25);
         fortifyingRival.strength += fortifyingRivalFortification;
         // console.log(rivalsArray);
         console.log(`\n${fortifyingRival.name} fortified and gained ${fortifyingRivalFortification} Strength.`);
     }
     else {
+<<<<<<< HEAD
         let rivalAFortificationAmount = ((Math.floor(Math.random() * 4) + 1) * 25);
         let rivalBFortificationAmount = ((Math.floor(Math.random() * 4) + 1) * 25);
         let rivalCFortificationAmount = ((Math.floor(Math.random() * 4) + 1) * 25);
+=======
+        let rivalAFortificationAmount = ((Math.floor(Math.random() * 6) + 1) * 25);
+        let rivalBFortificationAmount = ((Math.floor(Math.random() * 6) + 1) * 25);
+        let rivalCFortificationAmount = ((Math.floor(Math.random() * 6) + 1) * 25);
+>>>>>>> 3f1bc675587737add3a457061c02590a537d2c45
         
         rivalA.strength += rivalAFortificationAmount;
         rivalB.strength += rivalBFortificationAmount;
