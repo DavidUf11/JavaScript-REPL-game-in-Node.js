@@ -4,8 +4,6 @@ function runGame() {
 
 console.log("\n\n\n\n\n\n\n\nWelcome to The Battle for Wyncode!");
 
-
-
 let charactersList = ["Dan", "Katie", "Sara", "Will", "Ernie"]
 let characterSelection = prompt.question(`\nChoose your character.\n\n[1] Dan\n[2] Katie\n[3] Sara\n[4] Will\n\n`);
 if (characterSelection != 1 && characterSelection != 2 && characterSelection != 3 && characterSelection != 4 && characterSelection != 5) {
