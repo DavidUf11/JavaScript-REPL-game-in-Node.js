@@ -36,7 +36,6 @@ let battleEffectsMultiplier = 1;
 
 let winners = [];
 
-
 function displayStats() {
     console.log(`\nStrength: ${userStrength}\nGold: ${currentGold}\nVictories: ${currentVictories}\n`);
 }
