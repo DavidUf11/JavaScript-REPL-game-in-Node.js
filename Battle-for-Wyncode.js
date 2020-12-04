@@ -715,6 +715,7 @@ function askForAction(param1) {
     }  
 }
 
+
 askForAction();
 
 function newTurn() {
