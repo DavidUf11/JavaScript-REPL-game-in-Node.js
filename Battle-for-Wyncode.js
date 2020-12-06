@@ -872,15 +872,9 @@ function simulateNPCBattle(NPC1, NPC2) {
         console.log("The battle ended in a draw! Neither combatant gains a victory.");
         }
     } else {
-<<<<<<< HEAD
-        let NPC1FortificationAmount = ((Math.floor(Math.random() * 4) + 1) * 25);
-        NPC1.strength += NPC1FortificationAmount;
-        let NPC2FortificationAmount = ((Math.floor(Math.random() * 4) + 1) * 25);
-=======
         let NPC1FortificationAmount = ((Math.floor(Math.random() * 6) + 1) * 25);
         NPC1.strength += NPC1FortificationAmount;
         let NPC2FortificationAmount = ((Math.floor(Math.random() * 6) + 1) * 25);
->>>>>>> 3f1bc675587737add3a457061c02590a537d2c45
         NPC2.strength += NPC2FortificationAmount; 
         console.log(`\n\nNo other battle took place this turn. ${NPC1.name} and ${NPC2.name} both fortified.\n${NPC1.name} +${NPC1FortificationAmount} Strength\n${NPC2.name} +${NPC2FortificationAmount} Strength`);
     }
