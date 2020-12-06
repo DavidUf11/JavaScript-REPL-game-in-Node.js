@@ -1,6 +1,8 @@
 const prompt = require('readline-sync');
 
+
 function runGame() {
+
 
 console.log("\n\n\n\n\n\n\n\nWelcome to The Battle for Wyncode!");
 
