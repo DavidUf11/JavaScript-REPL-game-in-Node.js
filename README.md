@@ -5,7 +5,7 @@ The Battle For Wyncode is a turn-based action game. Play it in a REPL within you
 ## Installation & Startup
 1. Clone this repo
 2. `cd` into the cloned repo
-3. In the command line, run `the-battle-for-wyncode.js`
+3. In the command line, run `node Battle-for-Wyncode.js`
 
 ## Game Instructions
 First, select your character -- there may be a secret character you can unlock!
