@@ -1,6 +1,14 @@
 # The Battle for Wyncode
 
-The Battle For Wyncode is a turn-based action game. To win, accumulate five victories before any of your rivals.
+The Battle For Wyncode is a turn-based action game. Play it in a REPL within your command line, executable with Node.js. 
+
+## Installation & Startup
+1. Clone this repo
+2. `cd` into the cloned repo
+3. In the command line, run `the-battle-for-wyncode.js`
+
+## Game Instructions
+First, select your character -- there may be a secret character you can unlock!
 
 Each turn you can choose from three actions:
 
@@ -11,4 +19,4 @@ take on a Battle Effect that will last for one battle. The winner of each battle
 
 * Fortify - Gain Strength.
 
-Each turn your rivals can also Battle each other or Fortify. Make sure you get to five Victories before any of them!
+Each turn your rivals will also Battle each other or Fortify. To win. accumulate five Victories before any of them!
