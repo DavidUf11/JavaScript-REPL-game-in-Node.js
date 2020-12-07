@@ -17,6 +17,6 @@ Each turn you can choose from three actions:
 * Battle - Face off against a rival. Before battling, you can roll a die to
 take on a Battle Effect that will last for one battle. The winner of each battle will gain a Victory.
 
-* Fortify - Gain Strength.
+* Fortify - Gain a randomized amount of Strength.
 
 Each turn your rivals will also Battle each other or Fortify. To win. accumulate five Victories before any of them!
