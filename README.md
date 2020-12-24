@@ -1,6 +1,6 @@
 # The Battle for Wyncode
 
-The Battle For Wyncode is a turn-based action game. Play it in a REPL within your command line, executable with Node.js. 
+The Battle For Wyncode is a turn-based action game that you can play in a REPL within your command line, executable with Node.js. 
 
 ## Installation & Startup
 1. Clone this repo
